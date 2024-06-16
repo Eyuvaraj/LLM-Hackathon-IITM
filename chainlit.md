@@ -1,14 +1,25 @@
-# Welcome to Chainlit! 🚀🤖
+# Welcome to the LLM Hackathon! 🚀🤖
 
-Hi there, Developer! 👋 We're excited to have you on board. Chainlit is a powerful tool designed to help you prototype, debug and share applications built on top of LLMs.
+Hi there, Developer! 👋 I'm excited to participate in this hackathon. This challenge is designed to test my skills in creating a RAG-based chatbot that will serve as an assistant for handling queries from both prospective qualifier applicants and existing students related to the IITM BS Degree program in Data Science and Applications.
 
-## Useful Links 🔗
+## Problem Statement
 
-- **Documentation:** Get started with our comprehensive [Chainlit Documentation](https://docs.chainlit.io) 📚
-- **Discord Community:** Join our friendly [Chainlit Discord](https://discord.gg/k73SQ3FyUh) to ask questions, share your projects, and connect with other developers! 💬
+**Create a RAG-based chatbot that will act as the assistant for handling queries from both prospective qualifier applicants and existing students related to the IITM BS Degree program in Data Science and Applications.**
 
-We can't wait to see what you create with Chainlit! Happy coding! 💻😊
+## Resources to be Used
 
-## Welcome screen
+- **HTML content of the BS Programme Website**
+- **Student Handbook**
 
-To modify the welcome screen, edit the `chainlit.md` file at the root of your project. If you do not want a welcome screen, just leave this file empty.
+## Constraints
+
+The chatbot should use only the models from Hugging Face that are given below. The Hugging Face Serverless API can be used for the initial stages:
+
+### Embedding Models
+- **nomic-ai/nomic-embed-text-v1.5**
+- **sentence-transformers/all-MiniLM-L6-v2**
+
+### Large Language Models
+- **google/gemma-1.1-7b-it**
+- **meta-llama/Meta-Llama-3-8B-Instruct**
+- **mistralai/Mistral-7B-Instruct-v0.3**
