@@ -26,11 +26,16 @@ if not dev:
         api_key="sk-3OMQvpyXHOCnP0XoMTLAoA",
         base_url="https://litellm-d2k7gd2v6q-el.a.run.app"
     )
+    SCORE = 0.7
+    top_K = 10
+
 
 else:
     client = Groq(
         api_key=os.environ.get("GROQ_API_KEY", "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"),
     )
+    SCORE = 0.5
+    top_K = 2
 
 embeddings = NomicEmbeddings(model="nomic-embed-text-v1.5", dimensionality=768)
 
@@ -54,12 +59,12 @@ def message_dict(role, content):
 
 
 def rag_vectors(text):
-    results = langchain_chroma.similarity_search_with_score(text, k=2)
+    results = langchain_chroma.similarity_search_with_score(text, k=top_K)
     docs = []
     for item in results:
         content = item[0].page_content
         score = item[1]
-        if score < 0.4:
+        if score < SCORE:
             docs.append(content)
     return docs if docs else None
 
