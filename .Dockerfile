@@ -1,8 +1,6 @@
 # Use an official Python runtime as a parent image
 FROM python:3.10-slim
 
-# Set environment variable for Groq API key
-ENV GROQ_API_KEY=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
 
 # Set the working directory in the container
 WORKDIR /app
