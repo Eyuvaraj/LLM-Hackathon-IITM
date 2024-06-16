@@ -67,4 +67,4 @@ else:
     top_K: 2
 
 
-![App Screenshot](./files/sample.png)
+![App Screenshot](./public/avatars/screentshot.png)
