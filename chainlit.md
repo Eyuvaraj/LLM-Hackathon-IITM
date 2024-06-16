@@ -1,25 +1,30 @@
-# Welcome to the LLM Hackathon! 🚀🤖
+# IITM_BOT
 
-Hi there, Developer! 👋 I'm excited to participate in this hackathon. This challenge is designed to test my skills in creating a RAG-based chatbot that will serve as an assistant for handling queries from both prospective qualifier applicants and existing students related to the IITM BS Degree program in Data Science and Applications.
+IITM_BOT is an interactive assistant designed to help students with questions about the IITM BS degree program. The bot is knowledgeable about the program and can provide information on various aspects, including courses, the application process, and general advice and guidance for interested students. The bot is designed to be friendly, approachable, and eager to help students succeed.
 
-## Problem Statement
+## Features
 
-**Create a RAG-based chatbot that will act as the assistant for handling queries from both prospective qualifier applicants and existing students related to the IITM BS Degree program in Data Science and Applications.**
+- **Personalized Interaction:** The bot personalizes interactions by asking for the user's name.
+- **Casual and Conversational Dialogue:** Engages users in a casual and conversational tone, incorporating expressions like 'Hmm,' 'Ah,' and occasional emojis.
+- **Clear and Concise Communication:** Maintains a simplified, clear, concise, natural, informal, and engaging tone throughout the conversation.
+- **Focused Responses:** Avoids excessive detail or technical jargon to ensure clarity and user engagement.
+- **Accuracy and Honesty:** Does not assume or provide imaginary information. The bot asks for more questions if the user's query is unclear or ambiguous, or kindly says it doesn't know.
+- **Specialized Knowledge:** Only answers questions related to the IITM BS degree program.
 
-## Resources to be Used
 
-- **HTML content of the BS Programme Website**
-- **Student Handbook**
+## Usage
 
-## Constraints
+To interact with the IITM_BOT, simply initiate a conversation and ask your questions about the IITM BS degree program. The bot will guide you through the information you need in an easy-to-understand format.
 
-The chatbot should use only the models from Hugging Face that are given below. The Hugging Face Serverless API can be used for the initial stages:
 
-### Embedding Models
-- **nomic-ai/nomic-embed-text-v1.5**
-- **sentence-transformers/all-MiniLM-L6-v2**
+## Contributing
 
-### Large Language Models
-- **google/gemma-1.1-7b-it**
-- **meta-llama/Meta-Llama-3-8B-Instruct**
-- **mistralai/Mistral-7B-Instruct-v0.3**
+If you have suggestions or improvements for IITM_BOT, feel free to create an issue or submit a pull request. We welcome contributions to enhance the bot's functionality and user experience.
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+IITM_BOT - Helping students navigate the IITM BS degree program with ease and clarity.

@@ -1,105 +1,49 @@
-# from fastapi import FastAPI
-# import os
-
-
-# SYSTEM_PROMPT = "You are a helpful assistant who is here to answer any questions students have about IITM BS degree program. You are knowledgeable about the program and can provide information about the program, its courses, and the application process. You are also able to provide general advice and guidance to students who are interested in the program. You are friendly, apfrom fastapi import FastAPI
-# import os
-
-
-# client = Groq(
-#     api_key=os.environ.get("GROQ_API_KEY", "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"),
-# )
-
-# SYSTEM_PROMPT = "You are a helpful assistant who is here to answer any questions students have about IITM BS degree program. You are knowledgeable about the program and can provide information about the program, its courses, and the application process. You are also able to provide general advice and guidance to students who are interested in the program. You are friendly, approachable, and eager to help students succeed. Personalize the conversation by asking the student name."
-
-# def message_dict(role, content):
-#     return {
-#         "role": role,
-#         "content": content
-#     }
-
-# def rag_template(query):
-#     return f"User Query: {query}, Use this information to answer user query if you find it helpful: {get_response(query)}"
-
-# def get_embeddings(text):
-#     pass
-
-# def get_vectors(query):
-#     pass
-
-# def get_response(user_query):
-#     messages = [
-#         message_dict("system", SYSTEM_PROMPT)
-#     ]
-#     messages.append(message_dict("user", "What is the IITM BS degree program?"))
-#     chat_completion = client.chat.completions.create(
-#         messages=messages,
-#         model="llama3-70b-8192",
-#     )
-#     return chat_completion.choices[0].message.content
-
-# app = FastAPI()
-
-# @app.get("/")
-# def read_root():
-#     return {"Hello": "World"}
-
-# if __name__ == "__main__":
-#     import uvicorn
-#     uvicorn.run(app, host="127.0.0.1", port=5000)
-# proachable, and eager to help students succeed. Personalize the conversation by asking the student name."
-
-
-# def message_dict(role, content):
-#     return {
-#         "role": role,
-#         "content": content
-#     }
-
-
-# def rag_template(query):
-#     return f"User Query: {query}, User this information to answer user query if you find it helpful: {get_response(query)}"
-
-
-# def get_embeddings(text):
-#     pass
-
-# def get_vectors(query):
-#     pass
-
-
-# def get_response(user_query):
-#     messages = [
-#         message_dict("system", SYSTEM_PROMPT)
-#     ]
-#     messages.append(message_dict("user", "What is the IITM BS degree program?"))
-#     chat_completion = client.chat.completions.create(
-#         messages=messages,
-#         model="llama3-70b-8192",
-#     )
-
-#     return chat_completion.choices[0].message.content
-
-
-# app = FastAPI()
-
-# @app.get("/")
-# def read_root():
-#     return {"Hello": "World"}
-
-# if __name__ == "__main__":
-#     import uvicorn
-#     uvicorn.run(app, host="127.0.0.1", port=5000)
-
-
-from fastapi import FastAPI
-import openai
+from fastapi import FastAPI, HTTPException
+from openai import OpenAI
+from langchain_chroma import Chroma
+from langchain_nomic.embeddings import NomicEmbeddings
+import chromadb
 import os
+from langchain_core.prompts import PromptTemplate
+from pydantic import BaseModel
+from typing import List, Dict
+from groq import Groq
+import pprint
+from utils import dev, nomic_api_key, groq_api_key, hf_token
 
-# OpenAI API key setup
-openai.api_key = os.environ.get("OPENAI_API_KEY", "sk-your-api-key")
+class Message(BaseModel):
+    role: str
+    content: str
 
-SYSTEM_PROMPT = "You are a helpful assistant who is here to answer any questions students have about IITM BS degree program. You are knowledgeable about the program and can provide information about the program, its courses, and the application process. You are also able to provide general advice and guidance to students who are interested in the program. You are friendly, approachable, and eager to help students succeed. Personalize the conversation by asking the student name."
+class ChatRequest(BaseModel):
+    messages: List[Message]
+
+class ChatResponse(BaseModel):
+    assistant: str
+
+if not dev:
+    client = OpenAI(
+        api_key="sk-3OMQvpyXHOCnP0XoMTLAoA",
+        base_url="https://litellm-d2k7gd2v6q-el.a.run.app"
+    )
+
+else:
+    client = Groq(
+        api_key=os.environ.get("GROQ_API_KEY", "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"),
+    )
+
+embeddings = NomicEmbeddings(model="nomic-embed-text-v1.5", dimensionality=768)
+
+# Load the document chunks into Chroma and save to disk
+persistent_client = chromadb.PersistentClient(path="./chroma_db")
+collection = persistent_client.get_or_create_collection("IITM-BS-Data")
+
+langchain_chroma = Chroma(
+    client=persistent_client,
+    collection_name="IITM-BS-Data",
+    embedding_function=embeddings,
+)
+
 
 def message_dict(role, content):
     return {
@@ -107,34 +51,86 @@ def message_dict(role, content):
         "content": content
     }
 
-def rag_template(query):
-    return f"User Query: {query}, Use this information to answer user query if you find it helpful: {get_response(query)}"
 
-def get_response(user_query):
-    messages = [
-        message_dict("system", SYSTEM_PROMPT),
-        message_dict("user", user_query)
-    ]
-    chat_completion = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=messages,
-        max_tokens=4000
-    )
-    return chat_completion.choices[0].message['content']
+
+def rag_vectors(text):
+    results = langchain_chroma.similarity_search_with_score(text, k=2)
+    docs = []
+    for item in results:
+        content = item[0].page_content
+        score = item[1]
+        if score < 0.4:
+            docs.append(content)
+    return docs if docs else None
+
+
+SYSTEM_PROMPT = """You are an IITM_BOT here to answer any questions students have about the IITM BS degree program. You are knowledgeable about the program, its courses, the application process, and can provide general advice and guidance to interested students. You are friendly, approachable, and eager to help students succeed.
+
+Personalize interactions by asking for the user's name.
+Engage in casual, conversational dialogue with expressions like 'Hmm,' 'Ah,' and occasional emojis.
+Maintain a simplified, clear, concise, natural, informal, and engaging tone.
+Avoid excessive detail or technical jargon for clarity and engagement.
+Do not assume or provide imaginary information. Ask for clarification if the query is unclear, or kindly say you don't know.
+Only answer questions related to the IITM BS degree program.
+Provide responses in text markdown format."""
+
+
+def rag_prompt(query):
+    vectors = rag_vectors(query)
+    if vectors and len(vectors) >= 1:
+        print(f"Vectors: \n\n{vectors}\n\n")
+        prompt = (
+            f"User's Query: {query}\n\n"
+            "Use this information to answer the user query if you find it helpful:\n"
+        )
+        count = 1
+        for item in vectors:
+            prompt += f"\nInfo {count}: {item}\n\n"
+        return prompt
+    else:
+        return query
+
+
+def get_response(conv: List[Message]) -> str:
+    try:
+        user_query = conv[-1].content
+        augmented_prompt = rag_prompt(user_query)
+        
+        messages = [
+            message_dict("system", SYSTEM_PROMPT),
+        ]
+        messages.extend(conv[:-1])
+        messages.append(message_dict("user", augmented_prompt))
+
+
+        chat_completion = client.chat.completions.create(
+            model="Meta-Llama-3-8B-Instruct" if not dev else "llama3-70b-8192",
+            messages=messages,
+            max_tokens=4000
+        )
+        
+        return chat_completion.choices[0].message.content
+    except Exception as e:
+        return str(e)
+
 
 app = FastAPI()
 
+
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"message": "🤗Hi There, welcome"}
 
-@app.post("/chat")
-def chat(question: str):
+
+@app.post("/chat", response_model=ChatResponse)
+def chat(request: ChatRequest):
     try:
-        answer = get_response(question)
-        return {"answer": answer}
+        user_messages = request.messages
+        answer = get_response(user_messages)
+        return {"assistant": answer}
     except Exception as e:
-        return {"error": str(e)}
+        raise HTTPException(status_code=400, detail=str(e))
+
 
 if __name__ == "__main__":
     import uvicorn
