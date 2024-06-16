@@ -25,7 +25,7 @@ class ChatResponse(BaseModel):
 # API client initialization
 if not dev:
     client = OpenAI(
-        api_key=os.environ.get("GROQ_API_KEY", "sk-3OMQvpyXHOCnP0XoMTLAoA"),
+        api_key=os.environ.get("api_key", "sk-3OMQvpyXHOCnP0XoMTLAoA"),
         base_url=os.environ.get("base_url", "https://litellm-d2k7gd2v6q-el.a.run.app")
     )
     SCORE = 0.5
