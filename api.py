@@ -21,21 +21,21 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     assistant: str
 
+
+# API client initialization
 if not dev:
     client = OpenAI(
         api_key="sk-3OMQvpyXHOCnP0XoMTLAoA",
         base_url="https://litellm-d2k7gd2v6q-el.a.run.app"
     )
-    SCORE = 0.7
-    top_K = 10
-
-
+    SCORE = 0.5
+    top_K = 2
 else:
     client = Groq(
         api_key=os.environ.get("GROQ_API_KEY", "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"),
     )
-    SCORE = 0.5
-    top_K = 2
+    SCORE = 0.7
+    top_K = 10
 
 embeddings = NomicEmbeddings(model="nomic-embed-text-v1.5", dimensionality=768)
 
