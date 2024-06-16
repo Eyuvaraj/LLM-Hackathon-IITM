@@ -21,7 +21,7 @@ CONVERSATION = []
 
 @cl.on_chat_start
 async def main():
-    await cl.Message(content="Hi! 🧑‍🎓 I'm **IITM_BOT**, your go-to source for information on the **IITM BS degree program**.").send()
+    await cl.Message(content="Hi, There! 🧑‍🎓 I'm **IITM_BOT**, your go-to source for information on the **IITM BS degree program**.").send()
 
 
 @cl.on_message
