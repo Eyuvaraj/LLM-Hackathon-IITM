@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from typing import List, Dict
 from groq import Groq
 import pprint
-from utils import dev, nomic_api_key, groq_api_key, hf_token
+from utils import dev, nomic_api_key, groq_api_key, hf_token, api_key, base_url
 
 class Message(BaseModel):
     role: str
@@ -25,8 +25,8 @@ class ChatResponse(BaseModel):
 # API client initialization
 if not dev:
     client = OpenAI(
-        api_key=os.environ.get("api_key", "sk-3OMQvpyXHOCnP0XoMTLAoA"),
-        base_url=os.environ.get("base_url", "https://litellm-d2k7gd2v6q-el.a.run.app")
+        api_key=api_key if api_key else os.environ.get("api_key"),
+        base_url=base_url if base_url else os.environ.get("base_url")
     )
     SCORE = 0.5
     top_K = 2

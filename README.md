@@ -55,10 +55,16 @@ Once the backend and chatbot are running, you can interact with the IITM_BOT by 
 Due to limitations in handling context length in the provided api, I've opted to integrate with GROQ lamma70b instead. But meta-llama/Meta-Llama-3-8B-Instruct can be used by setting dev variable in .env to False
 
 if Dev:
+
     Model: llama3-70b-8192
     RAG score filter: 0.7
     top_K: 10
+
 else:
+
     Model: Meta-Llama-3-8B-Instruct
     RAG score filter: 0.5
     top_K: 2
+
+
+![App Screenshot](.files/sample.png)
