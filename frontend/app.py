@@ -16,10 +16,10 @@ def message_dict(role, content):
         "content": content
     }
 
-CONVERSATION = []
 
 @cl.on_chat_start
 async def main():
+    cl.user_session.set("CONVERSATIONS", [])
     await cl.Message(content="Hi, There! 🧑‍🎓 I'm **IITM_BOT**, your go-to source for information on the **IITM BS degree program**.").send()
 
 
@@ -27,11 +27,12 @@ async def main():
 async def main(message: cl.message.Message):
     try:
         user_message = message.content  # Access the content attribute of the message
-        CONVERSATION.append(message_dict("user", user_message))
+        CONVERSATIONS = cl.user_session.get("CONVERSATIONS")
+        CONVERSATIONS.append(message_dict("user", user_message))
 
         # Prepare the data payload to send to the backend
         data = {
-            "messages": CONVERSATION
+            "messages": CONVERSATIONS
         }
 
         # Send the payload to the backend
@@ -40,7 +41,7 @@ async def main(message: cl.message.Message):
         
         if "assistant" in response_data:
             await cl.Message(content=response_data["assistant"]).send()
-            CONVERSATION.append(message_dict("assistant", response_data["assistant"]))
+            CONVERSATIONS.append(message_dict("assistant", response_data["assistant"]))
         else:
             await cl.Message(content="Error: " + response_data.get("error", "Unknown error")).send()
     except Exception as e:

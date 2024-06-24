@@ -8,7 +8,7 @@ from langchain_core.prompts import PromptTemplate
 from pydantic import BaseModel
 from typing import List, Dict
 from groq import Groq
-from utils import dev, nomic_api_key, groq_api_key, hf_token, api_key, base_url
+from utils import dev, nomic_api_key, groq_api_key, api_key, base_url
 
 class Message(BaseModel):
     role: str
@@ -24,14 +24,14 @@ class ChatResponse(BaseModel):
 # API client initialization
 if not dev:
     client = OpenAI(
-        api_key=api_key if api_key else os.environ.get("api_key"),
-        base_url=base_url if base_url else os.environ.get("base_url")
+        api_key=api_key,
+        base_url=base_url
     )
     SCORE = 0.5
     top_K = 2
 else:
     client = Groq(
-        api_key=os.environ.get("GROQ_API_KEY"),
+        api_key=groq_api_key,
     )
     SCORE = 0.7
     top_K = 10
