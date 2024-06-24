@@ -1,0 +1,8 @@
+__pycache__/
+data/Pdf_documents/
+data/study-iitm-website/
+dev.ipynb
+.env
+venv/
+dev2.ipynb
+LLM-Hackathon-IITM/
