@@ -27,12 +27,12 @@ This directory contains the Chainlit-based chatbot frontend for the IITM_BOT pro
 
 1. **Build Docker Image**:
     ```bash
-    docker build -t IITM-bot-frontend .
+    docker build -t iitm-bot-frontend .
     ```
 
 2. **Run Docker Container**:
     ```bash
-    docker run -p 8000:8000 IITM-bot-frontend
+    docker run -p 8000:8000 iitm-bot-frontend
     ```
 
 ## Usage

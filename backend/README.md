@@ -39,12 +39,12 @@ This directory contains the FastAPI backend for the IITM_BOT project.
 
 1. **Build Docker Image**:
     ```bash
-    docker build -t IITM-bot-backend .
+    docker build -t iitm-bot-backend .
     ```
 
 2. **Run Docker Container**:
     ```bash
-    docker run -p 5000:5000 IITM-bot-backend
+    docker run -p 5000:5000 iitm-bot-backend
     ```
 
 ## Embedding Files

@@ -26,8 +26,8 @@ Test = True
 print("embeddings info:")
 print("model: nomic-embed-text-v1.5")
 print("dimensionality: 768")
-print("chuck_size: 256")
-print("chunk_overlap: 40")
+print("chuck_size: 1024")
+print("chunk_overlap: 128")
 print("Text splitter: RecursiveCharacterTextSplitter")
 print("----------------------------------------------------\n")
 
