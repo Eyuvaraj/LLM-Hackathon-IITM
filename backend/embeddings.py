@@ -12,11 +12,14 @@ from sentence_transformers import SentenceTransformer
 
 embedding_model=None
 
-try:
+if os.path.exists('nomic-embed-text-v1.5'):
     embedding_model = SentenceTransformer("nomic-embed-text-v1.5", trust_remote_code=True)
-except:
+else:
     embedding_model = SentenceTransformer("nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True)
-    embedding_model.save('nomic-embed-text-v1.5')
+    try:
+        embedding_model.save('nomic-embed-text-v1.5')
+    except:
+        pass
 
 
 #HTML and PDF documents dir
