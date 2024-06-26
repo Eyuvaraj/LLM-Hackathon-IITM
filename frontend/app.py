@@ -3,8 +3,17 @@ from io import BytesIO
 import requests
 from pydantic import BaseModel
 from typing import List
+import os
 
-url = 'http://localhost:5000/chat'
+# Create a file .env and set a environment variable 'PROD' to 'True' for production
+PROD = open('.env','r').readline().split('=')[1]
+
+if PROD == 'True':
+    url = os.environ.get('CHAT_ENDPOINT')
+else:
+    url = 'http://localhost:5000/chat'
+
+
 headers = {
     'accept': 'application/json',
     'Content-Type': 'application/json',
