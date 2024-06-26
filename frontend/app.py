@@ -5,11 +5,9 @@ from pydantic import BaseModel
 from typing import List
 import os
 
-# Create a file .env and set a environment variable 'PROD' to 'True' for production
-PROD = open('.env','r').readline().split('=')[1]
 
-if PROD == 'True':
-    url = os.environ.get('CHAT_ENDPOINT')
+if os.environ.get('PROD') == 'True':
+    url = os.environ.get('CHAT_ENDPOINT_URL')
 else:
     url = 'http://localhost:5000/chat'
 
