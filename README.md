@@ -1,6 +1,6 @@
 # IITM_BOT Project
 
-This project consists of an interactive chatbot (`IITM_BOT`) and a FastAPI backend. The chatbot helps students with questions about the IITM BS degree program by providing information on courses, the application process, and general advice.
+This project consists of an interactive chatbot (`IITM Infobot`) and a FastAPI backend. The chatbot helps students with questions about the IITM BS degree program by providing information on courses, the application process, and general advice.
 
 ## Project Structure
 
