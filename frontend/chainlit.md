@@ -1,6 +1,6 @@
-# IITM_BOT
+# IITM Infobot
 
-IITM_BOT is an interactive assistant designed to help students with questions about the IITM BS degree program. The bot is knowledgeable about the program and can provide information on various aspects, including courses, the application process, and general advice and guidance for interested students. The bot is designed to be friendly, approachable, and eager to help students succeed.
+IITM Infobot is an interactive assistant designed to help students with questions about the IITM BS degree program. The bot is knowledgeable about the program and can provide information on various aspects, including courses, the application process, and general advice and guidance for interested students. The bot is designed to be friendly, approachable, and eager to help students succeed.
 
 ## Features
 
