@@ -5,12 +5,8 @@ from pydantic import BaseModel
 from typing import List
 import os
 
-
-if os.environ.get('PROD') == 'True':
-    url = os.environ.get('CHAT_ENDPOINT_URL')
-else:
-    url = 'http://localhost:5000/chat'
-
+url = os.environ.get('CHAT_ENDPOINT_URL', 'http://127.0.0.1:5000/chat')
+print('url:', url)
 
 headers = {
     'accept': 'application/json',
@@ -27,7 +23,7 @@ def message_dict(role, content):
 @cl.on_chat_start
 async def main():
     cl.user_session.set("CONVERSATIONS", [])
-    await cl.Message(content="Hi, There! 🧑‍🎓 I'm **IITM_BOT**, your go-to source for information on the **IITM BS degree program**.").send()
+    await cl.Message("Hi, There! 🧑‍🎓 I'm **IITM Infobot**, your go-to source for information on the **[IITM BS degree program](https://study.iitm.ac.in/ds/)**.").send()
 
 
 @cl.on_message
