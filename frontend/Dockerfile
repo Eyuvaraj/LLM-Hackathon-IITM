@@ -16,7 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app/
 
 # Expose the port your app runs on (optional)
-EXPOSE 5000
+EXPOSE 8000
 
 # Define the command to run the application
 CMD ["chainlit", "run", "app.py"]

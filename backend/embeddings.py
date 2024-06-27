@@ -9,6 +9,7 @@ import html2text
 from utils import nomic_api_key
 import os
 from sentence_transformers import SentenceTransformer
+from bs4 import BeautifulSoup
 
 embedding_model=None
 
@@ -52,7 +53,7 @@ text_splitter = RecursiveCharacterTextSplitter(
 
 def Text_Splitter(data):
     chunks = [re.sub("\n", " ", chunk.page_content) for chunk in text_splitter.create_documents(data)]
-    chunks = [chunk for chunk in chunks if len(chunk) > 60]
+    chunks = [chunk for chunk in chunks if len(chunk) >= 50]
     return chunks
 
 
@@ -60,9 +61,8 @@ def ChromaDB_EMB(docs, type, batch_size=512):
     persistent_client = chromadb.PersistentClient(path="./chroma_db")
     collection = persistent_client.get_or_create_collection("IITM-BS-Data")
     
-    # Function to process and add a batch of documents
     def process_and_add_batch(batch_docs, batch_start_idx):
-        doc_embeddings = embedding_model.encode(batch_docs, convert_to_numpy=True, show_progress_bar=True, output_value='sentence_embedding', precision='float32').tolist()
+        doc_embeddings = embedding_model.encode(batch_docs, convert_to_numpy=True, show_progress_bar=True, output_value='sentence_embedding', precision='float32', normalize_embeddings=True).tolist()
         try:
             collection.add(
                 documents=batch_docs,
@@ -102,13 +102,31 @@ def chunk_pdf(PDF_DIR):
 
 
 def extract_text_from_html(file_path):
-    """Extract text from an HTML file using html2text."""
+    """Extract main body text from an HTML file, excluding certain elements."""
     with open(file_path, 'r', encoding='utf-8') as f:
         html_content = f.read()
-    text_maker = html2text.HTML2Text()
-    text_maker.ignore_links = True
-    text = text_maker.handle(html_content)
-    return text
+
+    soup = BeautifulSoup(html_content, 'html.parser')
+
+    body = soup.find('div', {'id': 'mainContent'})
+
+    if body:
+        elements_to_exclude = ['header', 'nav', 'footer', 'sidebar', 'button']
+
+        for tag_name in elements_to_exclude:
+            elements = body.find_all(tag_name)
+            for element in elements:
+                element.decompose()
+            elements = body.find_all('div', {'id': 'mobNotification'})
+            for element in elements:
+                element.decompose()
+
+        text_maker = html2text.HTML2Text()
+        text_maker.ignore_links = True
+        text = text_maker.handle(str(body))
+        return text.strip()
+    else:
+        return ""
 
 
 def crawl_directory(directory):
