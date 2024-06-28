@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+groq
+openai
+chromadb
+langchain_nomic
+langchain_chroma
+langchain
+typing
+pydantic
+requests

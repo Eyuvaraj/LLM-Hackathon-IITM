@@ -51,7 +51,7 @@ auto_tag_thread = true
 
 [UI]
 # Name of the assistant.
-name = "assistant"
+name = "IITM Infobot"
 
 # Description of the assistant. This is used for HTML tags.
 # description = "IITM BS Degree Asssitant"
@@ -90,16 +90,16 @@ custom_css = "/public/stylesheet.css"
     #font_family = "Inter, sans-serif"
 # Override default MUI light theme. (Check theme.ts)
 [UI.theme.light]
-    #background = "#FAFAFA"
-    #paper = "#FFFFFF"
+    background = "#F5F5F5"
+    paper = "#FFFFFF"
 
     [UI.theme.light.primary]
-        #main = "#F80061"
-        #dark = "#980039"
-        #light = "#FFE7EB"
+        main = "#006064"
+        dark = "#1976D2"
+        light = "#BBDEFB"
     [UI.theme.light.text]
-        #primary = "#212121"
-        #secondary = "#616161"
+        primary = "#212121"
+        secondary = "#757575"
 
 # Override default MUI dark theme. (Check theme.ts)
 [UI.theme.dark]
