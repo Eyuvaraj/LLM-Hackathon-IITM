@@ -138,6 +138,13 @@ The project uses the following embedding files:
 - `backend/embeddings.py`: Contains the code for generating embeddings and upserting embeddings into chromaDB.
 - `backend/test_embeddings.py`: Contains the code for testing the embeddings through the terminal.
 
+## My Certificate
 
 ![21F2000664_hackathon](https://github.com/user-attachments/assets/eb90668f-8030-473c-9037-606ed6e1e0da)
+
+
+## Leaderboard
+
+![Hackathon](https://github.com/user-attachments/assets/ef61b762-7b0b-47e2-8cc7-e278c8fac3c0)
+
 
